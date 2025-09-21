@@ -2,8 +2,9 @@
 ### Samuel Heinrich
 ### Mini Project 2
 
-# Miniproject 2: Attributes of the Sounds of Genres
- 
+# Project Title
+Miniproject 2: Attributes of the Sounds of Genres
+
 ## Description
 
 
