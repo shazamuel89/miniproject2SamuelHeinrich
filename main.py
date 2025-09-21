@@ -50,7 +50,7 @@ columnUnits = {
 # Get filtered lists of the columns
 columns = df.columns.tolist()                                               # Get a list of all columns
 mfccColumns = df.filter(regex="^mfcc").columns.tolist()                     # Filter the list into mfcc columns
-trackColumns = [c for c in df.columns if c not in mfccColumns + ["label"]] # Filter the list into not mfcc columns and not "label"
+trackColumns = [c for c in df.columns if c not in mfccColumns + ["label"]]  # Filter the list into not mfcc columns and not "label"
 
 # Separate rows by genre
 genres = df["label"].unique().tolist()                  # Get a list of unique values for 'label' (a list of genres)
@@ -63,36 +63,16 @@ for column in trackColumns:                                     # For each colum
     averages = {}                                               # Initialize a dictionary that will contain the average of the current column for each genre
     for genre in genreDirectory:                                # For each genre
         averages[genre] = genreDirectory[genre][column].mean()  # Get the average value for the current column for the current genre
-    # Now make the chart.
-    plt.bar(averages.keys(), averages.values())
-    plt.xlabel('Genres')
-    plt.xticks(rotation=30)
-    plt.ylabel(columnUnits.get(column, column))
-    plt.title(f'Average {column} Per Genre')
-    plt.savefig(f'charts/{column}.jpg')
-    plt.show()
-
-# plt.savefig(str(charts / 'gender_count.jpg'))
-# plt.show()
-
-
-# (10 / 10 points) Using matplotlib, graph this data in a way that will visually represent the data. Really try to build
-# some fancy charts here as it will greatly help you in future homework assignments and in the final project.
-# (10 / 10 points) Save these graphs in a folder called charts as PNG files. Do not upload these to your project folder, the
-# project should save these when it executes. You may want to add this folder to your .gitignore file.
-# (10 / 10 points) There should be a minimum of 5 commits on your project, be sure to commit often!
-# (10 / 10 points) I will be checking out the main branch of your project. Please be sure to include a requirements.txt file
-# which contains all the packages that need installed. You can create this file with the output of pip freeze at the terminal prompt.
-# (20 / 20 points) There should be a README.md file in your project that explains what your project is, how to install the
-# pip requirements, and how to execute the program. Please use the GitHub flavor of Markdown. Be thorough on the explanations.
-
-
-# tempo: BPM of the track (higher = faster, lower = slower)
-# beats: rhythmic regularity, usually tracked by looking for periodic rhythmic swells or accents in the waveform, then counting the number of them throughout the track.
-# chroma_stft (Chroma Short-Time Fourier Transform): measures how energy is distributed across the 12 semitone pitch classes (captures harmonic content, useful for chord recognition and tonality)
-# rmse (Root Mean Square Energy): measures the loudness/energy of the signal over time (higher = louder/denser sound, lower = quieter/sparser)
-# spectral_centroid: the center of mass of the spectrum - often perceived as the brightness of the sound (high = bright/sharp, low = dark/mellow).
-# spectral_bandwidth: the spread of the spectrum around the centroid (high = wide/noisy/full spectrum, low = narrow/pure tone or focused sound).
-# rolloff: The frequency below which a certain %, usually 85%, of spectral energy lies (high = more high frequency content).
-# zero_crossing_rate: how often the waveform crosses the zero line (high = noisy/percussive/distorted/higher frequency, low = smoother tones/lower frequencies).
-# mfcc1-mfcc20: A set of 20 coefficients that summarize the timbre of the sound. Comes from mapping the spectrum onto the mel scale. Lower order MFCCs (mfcc1-mfcc3) capture broad spectral shape (like brightness/energy). Higher order MFCCs (mfcc10-20) capture finer details of the timbre (like texture, resonances).
+    plt.bar(                                                    # Make a bar chart
+        averages.keys(),                                        # x-coordinates are genre names
+        averages.values(),                                      # Heights are the average values
+        color='m',                                              # Set bar color
+        edgecolor='k',                                          # Set bar edge color
+        linewidth=2                                             # Set bar edge width
+    )
+    plt.xlabel('Genres')                                        # Set the x-axis label
+    plt.xticks(rotation=30)                                     # Set the labels to rotate slightly so they don't run into each other
+    plt.ylabel(columnUnits.get(column, column))                 # Set the y-axis label
+    plt.title(f'Average {column} Per Genre')                    # Set the chart title
+    plt.savefig(f'charts/{column}.jpg')                         # Save the charts into the charts directory
+    plt.show()                                                  # Display the charts
